@@ -4,7 +4,7 @@
 
 ---
 
->**Juego:**
+>**Juego:** https://mihai-cv.github.io/Canvas-Fighting-Game/
 
 ---
 
