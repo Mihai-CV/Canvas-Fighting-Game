@@ -22,7 +22,7 @@ window.onload = () => {
 
 	//createCircuit(carA);
 
-	let actors: Array<IActor> = [fps, fighterA, escenario];
+	let actors: Array<IActor> = [fps, fighterA];
 
 	let lastFrame = 0;
 	const render = (time: number) => {
