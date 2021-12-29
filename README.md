@@ -32,12 +32,12 @@ yarn run dev
 
 # Moveset y controles
 
-**W**: salto **S**: agacharse **A**: izquierda (defenderse) **D**: derecha    
+**Arrow Up**: salto **Arrow Down**: agacharse **Arrow Left**: izquierda (defenderse) **Arrow Right**: derecha    
 
- **J**: puñetazo debil **J**: puñetazo fuerte **N**: patada debil **M**: patada fuerte   
+ **A**: puñetazo debil **S**: puñetazo fuerte **Z**: patada debil **X**: patada fuerte   
  
  ***COMBOS***     
- **Hadouken:** [**SD**] + **J**
+ **Hadouken:** [**Arrow Down + Arrow Left**] + **S**
 
  <img src="./img/ZJF5.gif">
 

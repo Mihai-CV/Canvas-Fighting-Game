@@ -5,7 +5,8 @@ import { FPSViewer } from "./actors/FPSViewer";
 import { Pacman } from "./actors/Pacman";
 import { Circuit, createCircuit } from "./state/Circuit";
 import { MAP_A, MAP_B } from "./utils/keyboardMap";
-import {Map} from "../src/actors/Map"
+import { Map } from "../src/actors/Map"
+
 
 window.onload = () => {
 	var canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -15,14 +16,15 @@ window.onload = () => {
 
 	//let carA = new Car({ x: 100, y: 100 }, MAP_A);
 	//let carB = new Car({ x: 300, y: 300 }, MAP_B);
-	let fighterA = new Fighter({x: 200, y: 700}, MAP_A)
+	let fighterA = new Fighter({x: 200, y: 590}, MAP_A)
+	//let fighterB = new Fighter({x: 800, y: 700}, MAP_A)
 	let escenario = new Map({x: 0, y: 0})
 
-	//let cars = [carA, fighterA];
+	//let cars = [fighterB, fighterA];
 
-	//createCircuit(carA);
-
-	let actors: Array<IActor> = [fps, fighterA];
+	//createCircuit(fighterA);
+	
+	let actors: Array<IActor> = [escenario, fighterA, fps ];
 
 	let lastFrame = 0;
 	const render = (time: number) => {
