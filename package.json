@@ -2,9 +2,8 @@
   "name": "w6d3-canvas-car",
   "version": "1.0.0",
   "description": "--- w4d3: Canvas date: 17/11/2021 ---",
-  "main": "index.js",
+
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel index.html",
     "build": "yarn run clean && yarn run ghbuild",
     "ghbuild": "parcel build --dist-dir docs --public-url /fightingGame index.html",
