@@ -2,7 +2,6 @@ import { Actor, IActor } from "./actors/Actor";
 import { Barrier } from "./actors/Barrier";
 import { Fighter } from "./actors/Fighter";
 import { FPSViewer } from "./actors/FPSViewer";
-import { Pacman } from "./actors/Pacman";
 import { Circuit, createCircuit } from "./state/Circuit";
 import { MAP_A, MAP_B } from "./utils/keyboardMap";
 import { Map } from "../src/actors/Map"
@@ -14,9 +13,7 @@ window.onload = () => {
 
 	let fps = new FPSViewer({ x: 5, y: 15 });
 
-	//let carA = new Car({ x: 100, y: 100 }, MAP_A);
-	//let carB = new Car({ x: 300, y: 300 }, MAP_B);
-	let fighterA = new Fighter({x: 200, y: 590}, MAP_A)
+	let fighterA = new Fighter({x: 200, y: 540}, MAP_A)
 	//let fighterB = new Fighter({x: 800, y: 700}, MAP_A)
 	let escenario = new Map({x: 0, y: 0})
 

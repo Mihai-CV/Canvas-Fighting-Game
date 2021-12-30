@@ -1,23 +1,25 @@
-export enum Carkey {
+export enum FigKey {
   UP,
   DOWN,
   LEFT,
   RIGHT,
+  H,
 }
 
 export interface KeyboardMap {
-  [key: string]: Carkey;
+  [key: string]: FigKey;
 }
 
 export let MAP_A = {
-  ArrowUp: Carkey.UP,
-  ArrowDown: Carkey.DOWN,
-  ArrowLeft: Carkey.LEFT,
-  ArrowRight: Carkey.RIGHT,
+  ArrowUp: FigKey.UP,
+  ArrowDown: FigKey.DOWN,
+  ArrowLeft: FigKey.LEFT,
+  ArrowRight: FigKey.RIGHT,
+  h: FigKey.H
 };
 export let MAP_B = {
-  w: Carkey.UP,
-  s: Carkey.DOWN,
-  a: Carkey.LEFT,
-  d: Carkey.RIGHT,
+  w: FigKey.UP,
+  s: FigKey.DOWN,
+  a: FigKey.LEFT,
+  d: FigKey.RIGHT,
 };

@@ -1,5 +1,5 @@
 import { Actor, IActor } from "./Actor";
-const esc = require("../assets/scenario.jpg")
+const esc = require("../../public/assets/scenario.jpg")
 
 export class Map extends Actor implements IActor {
   draw(delta: number, ctx: CanvasRenderingContext2D) {
