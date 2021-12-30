@@ -34,10 +34,10 @@ yarn run dev
 
 **Arrow Up**: salto **Arrow Down**: agacharse **Arrow Left**: izquierda (defenderse) **Arrow Right**: derecha    
 
- **A**: puñetazo debil **S**: puñetazo fuerte **Z**: patada debil **X**: patada fuerte   
+ **H**: puñetazo debil **J**: puñetazo fuerte **N**: patada debil **M**: patada fuerte   
  
  ***COMBOS***     
- **Hadouken:** [**Arrow Down + Arrow Left**] + **S**
+ **Hadouken:** [**Arrow Down + Arrow Left**] + **H**
 
  <img src="./img/ZJF5.gif">
 
