@@ -3,7 +3,11 @@ export enum FigKey {
   DOWN,
   LEFT,
   RIGHT,
-  H,
+  LP,
+  MP,
+  LK,
+  MK,
+  SPECIAL,
 }
 
 export interface KeyboardMap {
@@ -15,11 +19,20 @@ export let MAP_A = {
   ArrowDown: FigKey.DOWN,
   ArrowLeft: FigKey.LEFT,
   ArrowRight: FigKey.RIGHT,
-  h: FigKey.H
+  i: FigKey.LP,
+  o: FigKey.MP,
+  k: FigKey.LK,
+  l: FigKey.MK,
+  p: FigKey.SPECIAL,
 };
 export let MAP_B = {
   w: FigKey.UP,
   s: FigKey.DOWN,
   a: FigKey.LEFT,
   d: FigKey.RIGHT,
+  g: FigKey.LP,
+  h: FigKey.MP,
+  b: FigKey.LK,
+  n: FigKey.MK,
+  j: FigKey.SPECIAL,
 };
