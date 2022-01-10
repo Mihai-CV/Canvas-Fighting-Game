@@ -1,7 +1,10 @@
 import { Actor, IActor } from "./Actor";
 import { Point } from "../types/Point";
 import { FigKey, KeyboardMap } from "../utils/keyboardMap";
+import { LifeM } from "./LifeManager";
 const sprite = require("../../public/assets/Ryu_sprite_sheet-removebg.png");
+
+
 
 
 type Size = { w: number; h: number };
@@ -18,8 +21,11 @@ export class Fighter extends Actor implements IActor {
   currentFrame:number;
   framesDrawn:number;
   onGo: boolean;
+  beat: boolean;
+  Opponent: IActor;
   constructor(
     initialPos: Point,
+    Opponent: IActor,
     keyboardMap: KeyboardMap,
     size: Size = { w: 160, h: 390 },
   ) {
@@ -29,6 +35,7 @@ export class Fighter extends Actor implements IActor {
     this.maxSpeed = 180;
     this.speed = { x: 0, y: 0 };
     this.jumping=false
+    this.Opponent = Opponent;
 
     this.frameCount = 0;
     this.ryuSprite = new Image();
@@ -37,8 +44,10 @@ export class Fighter extends Actor implements IActor {
     this.currentFrame = 0;
     this.framesDrawn = 0;
     this.onGo = false;
+    this.beat = false;
   }
   update(delta: number) {
+    
     let newPosX = this.position.x + this.speed.x * delta;
     if (newPosX <= 880 && newPosX >= 0) {
       this.position.x = newPosX;
@@ -53,9 +62,16 @@ export class Fighter extends Actor implements IActor {
       newPosY = 540;
       this.speed.y = 0;
     }
+
   }
   draw(delta: number, ctx: CanvasRenderingContext2D) {
-    
+    let opPos = this.Opponent.position.x;
+		let myPos = this.position.x;
+		let distance = Math.floor(Math.sqrt(Math.pow(myPos - opPos, 2)))
+   
+    LifeM.distance = distance;
+
+
     const ryuFrameNeutral = [
       {sx: 5, sy: 10, sW: 65, sH: 95},
       {sx: 70, sy: 10, sW: 65, sH: 95},
@@ -106,15 +122,24 @@ export class Fighter extends Actor implements IActor {
       {sx: 304, sy: 1190, sW: 102, sH: 95, fsW:this.figSize.w + 100},
       {sx: 416, sy: 1190, sW: 65, sH: 95, fsW:this.figSize.w},
     ]
+    const ryuFramebeaten = [
+      {sx: 237, sy: 2023, sW: 72, sH: 95, fsW:this.figSize.w + 20}, 
+    ]
+    const ryuFrameWin = [
+      {sx: 577, sy: 1892, sW: 55, sH: 125, fsW:this.figSize.w},
+    ]
+
 
   let inNeutral = 1;
-    
-   if((this.speed.x > 0 || this.speed.x < 0) && this.position.y >= 540){
+  this.beat = LifeM.beatRyu
+
+   if((this.speed.x > 0 || this.speed.x < 0) && this.position.y >= 540 && this.beat == false){
     let i = Math.floor(this.frameCount / 8);
     
     let frame = ryuFrameWalk[i % ryuFrameWalk.length]
 
     ctx.drawImage(this.ryuSprite, frame.sx, frame.sy, frame.sW, frame.sH, this.position.x, this.position.y, this.figSize.w, this.figSize.h)
+    
    }
 
    if(this.speed.y < 0){
@@ -133,6 +158,50 @@ export class Fighter extends Actor implements IActor {
     let frame = ryuFrameJumpDown[i % ryuFrameJumpDown.length]
 
     ctx.drawImage(this.ryuSprite, frame.sx, frame.sy, frame.sW, frame.sH, this.position.x, this.position.y, this.figSize.w, 400)
+    }
+
+    if(LifeM.win == true){
+      inNeutral = 0;
+
+      let frame = ryuFrameWin[this.currentFrame % ryuFrameWin.length]
+      
+      ctx.drawImage(this.ryuSprite, frame.sx, frame.sy, frame.sW, frame.sH, this.position.x, this.position.y - 105, frame.fsW, this.figSize.h + 100)
+      
+      if(LifeM.win == true){
+        this.framesDrawn++
+        if(this.framesDrawn >= 12){
+          this.currentFrame++;
+          this.framesDrawn = 0;
+        }
+      }
+      if(frame == ryuFrameWin[3]){
+        setTimeout(()=>{
+        this.framesDrawn = 0;
+        this.currentFrame = 0;},100);
+      }
+    }
+
+    if(this.beat == true){
+      inNeutral = 0;
+
+      let frame = ryuFramebeaten[this.currentFrame % ryuFramebeaten.length]
+      
+      ctx.drawImage(this.ryuSprite, frame.sx, frame.sy, frame.sW, frame.sH, this.position.x, this.position.y, frame.fsW, this.figSize.h)
+      
+      if(this.beat == true){
+        this.framesDrawn++
+        if(this.framesDrawn >= 10){
+          this.currentFrame++;
+          this.framesDrawn = 0;
+        }
+      }
+      if(frame == ryuFramebeaten[1]){
+        setTimeout(()=>{this.beat = false;
+        this.framesDrawn = 0;
+        this.currentFrame = 0;},10);
+      }
+      this.speed.x = -180;
+      setTimeout(()=>{this.speed.x = 0;},250);
     }
 
     if(this.move == "mp" && this.onGo == true && this.position.y >= 540){
@@ -155,6 +224,10 @@ export class Fighter extends Actor implements IActor {
       }
       
       this.speed.x = 0;
+
+      if(distance < 210){
+        LifeM.touchingKen(1.1);
+      }
     }
 
     if(this.move == "lp" && this.onGo == true && this.position.y >= 540){
@@ -177,6 +250,11 @@ export class Fighter extends Actor implements IActor {
       }
       
       this.speed.x = 0;
+
+      if(distance < 188){
+        LifeM.touchingKen(1);
+      }
+    
     }
 
     if(this.move == "lk" && this.onGo == true && this.position.y >= 540){
@@ -199,6 +277,10 @@ export class Fighter extends Actor implements IActor {
       }
       
       this.speed.x = 0;
+
+      if(distance < 235){
+        LifeM.touchingKen(1);
+      }
     }
     
     if(this.move == "mk" && this.onGo == true && this.position.y >= 540){
@@ -221,15 +303,16 @@ export class Fighter extends Actor implements IActor {
       }
       
       this.speed.x = 0;
+
+      if(distance < 245){
+        LifeM.touchingKen(1.2);
+      }
     }
 
     if(this.speed.x == 0 && this.speed.y == 0 && inNeutral == 1){
       let i = Math.floor(this.frameCount / 11);    
       
       let frame = ryuFrameNeutral[i % ryuFrameNeutral.length]
-      /* ctx.translate(this.position.x + this.figSize.w/2, 0);
-      ctx.scale(-1, 1);
-      ctx.translate(-(this.position.x + this.figSize.w/2), 0); */
       ctx.drawImage(this.ryuSprite, frame.sx, frame.sy, frame.sW, frame.sH, this.position.x, this.position.y, this.figSize.w, this.figSize.h)
       }
 
@@ -274,15 +357,7 @@ export class Fighter extends Actor implements IActor {
       this.speed.x = 0;
     } else if (tecla == FigKey.RIGHT) {
       this.speed.x = 0;
-    } else if (tecla == FigKey.MP) {
-      //setTimeout(()=>this.move = "nothing",300)
-    } 
+    }
   }
 }
 
-
-/* export let Fig1: Fighter;
-
-export const figManager = (initialPos: Point, keyboardMap: KeyboardMap, size: Size) => {
-	Fig1 = new Fighter(initialPos, keyboardMap, size);
-}; */
